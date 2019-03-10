@@ -1,3 +1,7 @@
+require 'rest-client'
+require 'bunny'
+require 'json'
+
 module TicktokCli
 
   class Clock
