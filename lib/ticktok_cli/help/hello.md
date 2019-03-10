@@ -1,3 +1,0 @@
-Examples:
-
-$ ticktok-cli hello

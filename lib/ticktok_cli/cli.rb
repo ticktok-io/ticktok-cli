@@ -1,6 +1,7 @@
 require 'rest-client'
 require 'bunny'
 require 'json'
+require 'random-word'
 
 module TicktokCli
 
@@ -53,19 +54,18 @@ module TicktokCli
 
   class CLI < Command
     class_option :verbose, type: :boolean
-    class_option :noop, type: :boolean
 
-    desc "clock", "Create and listen to a new clock"
-    long_desc Help.text(:clock)
-
-    def clock(name = "you")
-      Clock.named("kuku").on('every.5.seconds').invoke(lambda {
-          |m| puts "kuku\tevery.5.seconds\t\t#{Time.new.inspect}"}
+    desc "schedule", "Create and listen to a new clock"
+    long_desc Help.text(:schedule)
+    option :name
+    def schedule(expr)
+      name = options.fetch(:name, RandomWord.adjs.next)
+      Clock.named(name).on(expr).invoke(lambda {
+          |m| puts "#{name}\t#{expr}\t\t#{Time.new.inspect}"}
       )
     end
 
     desc "version", "prints version"
-
     def version
       puts TicktokCli::VERSION
     end
